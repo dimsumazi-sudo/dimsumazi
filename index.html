@@ -23,6 +23,87 @@ button,input,select{font:inherit}button{border:0;border-radius:11px;padding:10px
 @media(max-width:390px){.products{grid-template-columns:1fr 1fr}.product{padding:11px;min-height:115px}.brand p{font-size:11px}.status{display:none}}
 @media print{body *{visibility:hidden}#receipt,#receipt *{visibility:visible}#receipt{position:absolute;left:0;top:0;width:100%;padding:12px;font:12px monospace;color:#000}}
 .auth-screen{position:fixed;inset:0;background:#f7f4f0;z-index:20;display:grid;place-items:center;padding:18px}.auth-card{background:white;border:1px solid var(--line);border-radius:18px;padding:24px;width:min(100%,420px);box-shadow:0 12px 40px #4a291022}.auth-card h2{margin-top:0}.user-row{display:flex;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+
+/* Penyegaran tampilan mobile Kasir AZI */
+:root{--brown:#713018;--orange:#e9a23b;--cream:#fff7ed;--ink:#2b211d;--muted:#806e63;--line:#efdfd1;--green:#16804a}
+body{background:linear-gradient(180deg,#fff8f0 0,#f7f1ea 340px,#f8f6f3 100%);-webkit-tap-highlight-color:transparent}
+header{position:sticky;top:0;z-index:10;background:linear-gradient(125deg,#5d2415 0%,#84391e 60%,#a64a24 100%);box-shadow:0 5px 18px #57281724;padding-top:max(14px,env(safe-area-inset-top));padding-bottom:14px}
+.logo{box-shadow:inset 0 0 0 1px #f0d5b5;font-size:18px;letter-spacing:.5px}
+.status{border:1px solid #ffffff28;backdrop-filter:blur(8px)}
+main{align-items:start;gap:16px}
+.panel{border-color:#efdfd2;border-radius:20px;box-shadow:0 8px 24px #6f2c1809}
+.panel h2{letter-spacing:-.25px}
+button{transition:transform .12s ease,filter .12s ease;min-height:40px;touch-action:manipulation}
+button:active{transform:scale(.98);filter:brightness(.97)}
+.primary{background:linear-gradient(135deg,#713018,#8d3b1e);box-shadow:0 4px 10px #7130181c}
+.filter{border:1px solid transparent}
+.filter.active{box-shadow:0 4px 12px #71301822}
+.product{background:linear-gradient(160deg,#fff 0%,#fffaf5 100%);border-color:#efdfd2;box-shadow:0 3px 10px #5c2b1208;min-width:0}
+.product:active{border-color:#c98e6c;background:#fff5e9}
+.pname{line-height:1.3;overflow-wrap:anywhere}
+.price{font-size:16px}
+.cart-row{gap:8px}
+.total-line.big{background:#fff7ed;border:1px dashed #e4c6b1;border-radius:14px;padding:14px;margin:12px 0}
+.field input,.field select{min-height:46px;border-radius:12px;font-size:16px}
+.field input[type=file]{font-size:14px;min-height:46px}
+.proof-preview{display:block;object-fit:contain;background:#fffaf5}
+.actions button{min-height:48px;border-radius:13px}
+.tabs{padding:4px;background:#f8eee5;border-radius:14px;width:max-content;max-width:100%}
+.tabs button{border-radius:11px}
+.stat{background:linear-gradient(150deg,#fffaf4,#fff3e6);border-radius:15px}
+.tablewrap{border:1px solid var(--line);border-radius:12px}
+.auth-screen{background:radial-gradient(ellipse at top,#f9dfc4 0,#fff8f0 48%,#f6eee6 100%)}
+.auth-card{border-radius:24px;box-shadow:0 18px 48px #4a29101a;padding:26px}
+.auth-card .logo{width:58px;height:58px;border-radius:18px;font-size:20px}
+@media(max-width:850px){
+ body{font-size:14px}
+ header{padding-left:14px;padding-right:14px;gap:8px}
+ .brand{gap:9px;min-width:0}.logo{width:43px;height:43px;border-radius:14px;flex-shrink:0}
+ .brand h1{font-size:17px;line-height:1.2}.brand p{font-size:11px}
+ header>div:last-child{gap:6px!important}
+ #connectionStatus{font-size:10px;padding:6px 8px;max-width:130px;white-space:normal;text-align:center}
+ #logoutBtn{padding:8px 10px;min-height:36px;font-size:12px}
+ main{padding:10px;gap:12px}
+ .panel{padding:14px;border-radius:17px}
+ .panel h2{font-size:17px;margin-bottom:10px}
+ .topline{align-items:center}
+ .products{gap:9px}
+ .product{padding:12px 10px;min-height:132px;border-radius:15px;gap:8px}
+ .emoji{font-size:27px}.pname{font-size:13px}.price{font-size:15px}
+ .product-actions button{min-height:34px;padding:6px 5px;font-size:11px}
+ .filters{gap:7px;margin-bottom:10px}.filter{padding:9px 12px}
+ #addProductBtn{width:100%}
+ .cart-empty{padding:24px 8px}
+ .stats{gap:8px}.stat{padding:11px}.stat strong{font-size:16px}.stat span{font-size:11px}
+ .tablewrap{max-width:100%;-webkit-overflow-scrolling:touch}
+ th,td{padding:10px 9px}
+ .toast{bottom:calc(12px + env(safe-area-inset-bottom));font-size:13px}
+}
+@media(max-width:480px){
+ header{align-items:flex-start}
+ .brand h1{font-size:16px}
+ .brand p{max-width:145px;line-height:1.3}
+ .status{display:block!important}
+ main{padding:8px}
+ .panel{padding:12px}
+ .products{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .product{min-height:126px;padding:10px 9px}
+ .product-info{gap:7px}
+ .product-actions{gap:5px}
+ .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .stat{padding:9px 7px}.stat strong{font-size:14px;overflow-wrap:anywhere}.stat span{font-size:10px;line-height:1.25}
+ .actions{gap:7px}.actions button{font-size:13px;padding:12px 6px}
+ .total-line.big{font-size:18px}
+ .field{margin:10px 0}
+ .auth-card{padding:22px 18px}
+}
+@media(max-width:360px){
+ #connectionStatus{display:none!important}
+ .brand p{max-width:125px}
+ .products{gap:7px}.product{padding:9px 8px}
+ .stats{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -51,7 +132,7 @@ button,input,select{font:inherit}button{border:0;border-radius:11px;padding:10px
 </section>
 <section class="panel" style="grid-column:1/-1">
   <div class="topline"><h2>Ringkasan & Riwayat</h2><div class="tabs"><button class="filter active" id="salesTab">Penjualan</button><button class="filter" id="settingsTab">Pengaturan</button></div></div>
-  <div id="salesView"><div class="topline" style="margin-bottom:12px"><span class="note">Ringkasan transaksi pada perangkat ini dan laporan Google Sheets.</span><button class="primary" id="dailyReportBtn">Muat laporan hari ini</button></div><div class="stats"><div class="stat"><span>Transaksi tersimpan sesi ini</span><strong id="statCount">0</strong></div><div class="stat"><span>Omzet sesi ini</span><strong id="statRevenue">Rp0</strong></div><div class="stat"><span>Item terjual sesi ini</span><strong id="statItems">0</strong></div></div><div class="tablewrap"><table><thead><tr><th>Waktu</th><th>No. Transaksi</th><th>Nama Kasir</th><th>Item</th><th>Pembayaran</th><th>Bukti QRIS</th><th>Total</th></tr></thead><tbody id="history"></tbody></table></div><p id="dailyReportStatus" class="note">Laporan harian Google Sheets belum dimuat.</p></div>
+  <div id="salesView"><div class="topline" style="margin-bottom:12px"><span class="note">Ringkasan transaksi pada perangkat ini dan laporan Google Sheets.</span><button class="primary" id="dailyReportBtn">Muat laporan hari ini</button></div><div class="monthly-tools" style="display:flex;gap:8px;align-items:end;flex-wrap:wrap;background:#fff8ef;border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:14px"><div class="field" style="margin:0;min-width:160px;flex:1"><label for="reportMonth">Riwayat bulan</label><input id="reportMonth" type="month"></div><button class="primary" id="monthlyReportBtn">Lihat riwayat bulan</button><button class="secondary" id="printMonthlyBtn">Cetak riwayat</button></div><div class="stats"><div class="stat"><span>Transaksi tersimpan sesi ini</span><strong id="statCount">0</strong></div><div class="stat"><span>Omzet sesi ini</span><strong id="statRevenue">Rp0</strong></div><div class="stat"><span>Item terjual sesi ini</span><strong id="statItems">0</strong></div></div><div class="tablewrap"><table><thead><tr><th>Waktu</th><th>No. Transaksi</th><th>Nama Kasir</th><th>Item</th><th>Pembayaran</th><th>Bukti QRIS</th><th>Total</th></tr></thead><tbody id="history"></tbody></table></div><p id="dailyReportStatus" class="note">Laporan harian Google Sheets belum dimuat.</p></div>
   <div id="settingsView" class="hidden">
     <div class="field"><label for="apiUrl">URL Google Apps Script Web App</label><input id="apiUrl" placeholder="https://script.google.com/macros/s/.../exec"></div>
     <div class="field"><label for="storeName">Nama toko di struk</label><input id="storeName" value="Dimsum & Es Cappuccino AZI"></div>
@@ -111,6 +192,11 @@ $('salesTab').onclick=()=>{$('salesView').classList.remove('hidden');$('settings
 $('settingsTab').onclick=()=>{$('salesView').classList.add('hidden');$('settingsView').classList.remove('hidden');$('settingsTab').classList.add('active');$('salesTab').classList.remove('active')};
 $('saveSettings').onclick=()=>{localStorage.setItem('azi_apiUrl',$('apiUrl').value.trim());localStorage.setItem('azi_storeName',$('storeName').value);localStorage.setItem('azi_adminPin',$('adminPin').value);toast('Pengaturan disimpan di perangkat ini.')};
 $('dailyReportBtn').onclick=async()=>{if(!$('apiUrl').value.trim())return toast('Sambungkan Google Sheets terlebih dahulu di Pengaturan.');$('dailyReportStatus').textContent='Memuat laporan hari ini…';try{const r=await jsonp({action:'getDailyReport',key:$('adminPin').value});if(!r.ok)throw new Error(r.error||'Gagal memuat laporan');$('statCount').textContent=r.count;$('statRevenue').textContent=rupiah(r.revenue);$('statItems').textContent=r.itemsSold;$('history').innerHTML=r.sales.length?r.sales.map(s=>`<tr><td>${escapeHtml(s.time)}</td><td>${escapeHtml(s.id)}</td><td>${escapeHtml(s.cashier||'-')}</td><td>${Number(s.items)||0} item</td><td>${escapeHtml(s.method)}</td><td>${s.proofUrl?`<a href="${escapeHtml(s.proofUrl)}" target="_blank" rel="noopener">Lihat foto</a>`:`-`}</td><td>${rupiah(s.total)}</td></tr>`).join(''):'<tr><td colspan="7">Belum ada transaksi hari ini.</td></tr>';$('dailyReportStatus').textContent='Laporan tanggal '+r.date+' dari Google Sheets. Total transaksi: '+r.count+'.';toast('Laporan harian berhasil dimuat.')}catch(e){$('dailyReportStatus').textContent='Laporan gagal dimuat: '+e.message;toast('Gagal memuat laporan: '+e.message)}};
+let lastMonthlyReport=null;
+function renderMonthlyRows(r){$('statCount').textContent=r.count;$('statRevenue').textContent=rupiah(r.revenue);$('statItems').textContent=r.itemsSold;$('history').innerHTML=r.sales.length?r.sales.map(s=>`<tr><td>${escapeHtml(s.date+' '+s.time)}</td><td>${escapeHtml(s.id)}</td><td>${escapeHtml(s.cashier||'-')}</td><td>${Number(s.items)||0} item</td><td>${escapeHtml(s.method)}</td><td>${s.proofUrl?`<a href="${escapeHtml(s.proofUrl)}" target="_blank" rel="noopener">Lihat foto</a>`:'-'}</td><td>${rupiah(s.total)}</td></tr>`).join(''):'<tr><td colspan="7">Tidak ada transaksi pada bulan ini.</td></tr>';$('dailyReportStatus').textContent='Riwayat bulan '+r.month+'. Total transaksi: '+r.count+'. Omzet: '+rupiah(r.revenue)+'.';}
+$('monthlyReportBtn').onclick=async()=>{const month=$('reportMonth').value;if(!month)return toast('Pilih bulan yang ingin dilihat.');if(!$('apiUrl').value.trim())return toast('Sambungkan Google Sheets terlebih dahulu di Pengaturan.');$('dailyReportStatus').textContent='Memuat riwayat bulan '+month+'…';try{const r=await jsonp({action:'getMonthlyReport',key:$('adminPin').value,month});if(!r.ok)throw new Error(r.error||'Gagal memuat riwayat bulan');lastMonthlyReport=r;renderMonthlyRows(r);toast('Riwayat bulanan berhasil dimuat.')}catch(e){$('dailyReportStatus').textContent='Riwayat bulanan gagal dimuat: '+e.message;toast('Gagal memuat riwayat: '+e.message)}};
+$('printMonthlyBtn').onclick=()=>{if(!lastMonthlyReport)return toast('Muat riwayat bulan terlebih dahulu.');const r=lastMonthlyReport;const rows=r.sales.map(s=>`<tr><td>${escapeHtml(s.date)} ${escapeHtml(s.time)}</td><td>${escapeHtml(s.id)}</td><td>${escapeHtml(s.cashier||'-')}</td><td>${Number(s.items)||0}</td><td>${escapeHtml(s.method)}</td><td>${rupiah(s.total)}</td><td>${s.proofUrl?'Ada':'-'}</td></tr>`).join('');const w=window.open('','_blank');if(!w)return toast('Izinkan pop-up untuk mencetak laporan.');w.document.write(`<!doctype html><html lang="id"><head><meta charset="utf-8"><title>Riwayat Kasir AZI ${escapeHtml(r.month)}</title><style>body{font:12px Arial,sans-serif;padding:20px;color:#222}h1{font-size:20px}p{margin:5px 0 14px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #aaa;padding:7px;text-align:left}th{background:#eee}.summary{margin:14px 0;font-weight:bold}@media print{button{display:none}}</style></head><body><h1>Dimsum & Es Cappuccino AZI</h1><h2>Riwayat Penjualan Bulan ${escapeHtml(r.month)}</h2><p>Total transaksi: ${r.count} | Total item: ${r.itemsSold} | Omzet: ${rupiah(r.revenue)}</p><table><thead><tr><th>Tanggal/Waktu</th><th>No. Transaksi</th><th>Nama Kasir</th><th>Item</th><th>Pembayaran</th><th>Total</th><th>Bukti QRIS</th></tr></thead><tbody>${rows||'<tr><td colspan="7">Tidak ada transaksi.</td></tr>'}</tbody></table><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();};
+$('reportMonth').value=new Date().toISOString().slice(0,7);
 $('testConnection').onclick=async()=>{try{const r=await jsonp({action:'ping',key:$('adminPin').value});if(!r.ok)throw new Error(r.error||'Tidak terhubung');$('connectionStatus').textContent='Google Sheets tersambung';$('setupNotice').classList.add('hidden');toast('Koneksi Google Sheets berhasil.')}catch(e){toast('Tes koneksi gagal: '+e.message)}};
 $('addProductBtn').onclick=addProduct;
 $('refreshBtn').onclick=async()=>{if(!$('apiUrl').value.trim())return toast('Isi URL backend di Pengaturan dahulu.');try{products=await loadProducts();renderProducts();$('connectionStatus').textContent='Google Sheets tersambung';$('setupNotice').classList.add('hidden');toast('Produk berhasil dimuat.')}catch(e){toast('Gagal memuat produk: '+e.message)}};
