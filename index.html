@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#6f2c18">
+<meta name="description" content="Kasir Dimsum & Es Cappuccino AZI">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>Kasir AZI</title>
+<style>
+:root{--brown:#6f2c18;--orange:#f59e0b;--cream:#fff8ef;--ink:#2b211d;--muted:#7b6b62;--line:#eadfd5;--green:#16804a}
+*{box-sizing:border-box}body{margin:0;background:#f7f4f0;color:var(--ink);font:15px system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:linear-gradient(120deg,#6f2c18,#a74720);color:white;padding:18px max(16px,calc((100vw - 1200px)/2));display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:14px;background:#fff3df;color:var(--brown);display:grid;place-items:center;font-weight:900;font-size:20px}.brand h1{margin:0;font-size:21px}.brand p{margin:3px 0 0;color:#ffe4d2;font-size:12px}
+.status{font-size:12px;background:#ffffff20;padding:7px 10px;border-radius:99px}
+main{max-width:1200px;margin:auto;padding:18px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:18px}
+.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 5px 18px #4a29100a}.panel h2{margin:0 0 14px;font-size:18px}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+button,input,select{font:inherit}button{border:0;border-radius:11px;padding:10px 13px;cursor:pointer;font-weight:650}.filter{background:#f3ebe4;color:var(--brown)}.filter.active,.primary{background:var(--brown);color:white}.secondary{background:#f3ebe4;color:var(--brown)}.danger{background:#fff0ed;color:#a12b18}
+.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.product{border:1px solid var(--line);background:#fffdfb;border-radius:14px;padding:14px 12px;text-align:left;min-height:125px;display:flex;flex-direction:column;justify-content:space-between;gap:12px}.product:hover{border-color:#c88d6b;background:#fff8ef}.emoji{font-size:29px}.pname{font-weight:750}.price{color:var(--brown);font-weight:800}.cart-empty{color:var(--muted);text-align:center;padding:32px 10px}.cart-row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.cart-row:last-child{border-bottom:0}.cart-name{font-weight:750}.small{font-size:12px;color:var(--muted);margin-top:3px}.qty{display:flex;align-items:center;gap:8px}.qty button{padding:5px 9px;background:#f3ebe4;color:var(--brown)}.total-line{display:flex;justify-content:space-between;gap:12px;margin:10px 0}.total-line.big{font-size:21px;font-weight:850;padding-top:12px;border-top:1px dashed #d7c5b7}.field{display:flex;flex-direction:column;gap:6px;margin:12px 0}.field label{font-size:12px;color:var(--muted);font-weight:700}.field input,.field select{width:100%;padding:11px 12px;border:1px solid #ddcec2;border-radius:10px;background:white}.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.actions button{padding:13px 10px}.full{width:100%}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.hidden{display:none!important}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}.stat{padding:13px;border-radius:13px;background:#fff8ef;border:1px solid var(--line)}.stat span{display:block;font-size:12px;color:var(--muted)}.stat strong{display:block;margin-top:5px;font-size:18px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--muted);font-size:11px;text-transform:uppercase}.note{font-size:12px;color:var(--muted);line-height:1.5}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#2b211d;color:white;padding:12px 16px;border-radius:12px;box-shadow:0 6px 20px #0002;z-index:5;max-width:90vw}.setup{background:#fff4dc;border:1px solid #f0d59b;border-radius:12px;padding:12px;margin-bottom:14px;font-size:13px;line-height:1.5}
+@media(max-width:850px){main{grid-template-columns:1fr;padding:12px}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:14px}header{padding:14px}.stats{grid-template-columns:1fr 1fr}.brand h1{font-size:18px}}
+@media(max-width:390px){.products{grid-template-columns:1fr 1fr}.product{padding:11px;min-height:115px}.brand p{font-size:11px}.status{display:none}}
+@media print{body *{visibility:hidden}#receipt,#receipt *{visibility:visible}#receipt{position:absolute;left:0;top:0;width:100%;padding:12px;font:12px monospace;color:#000}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">AZI</div><div><h1>Kasir AZI</h1><p>Dimsum & Es Cappuccino</p></div></div><div class="status" id="connectionStatus">Mode lokal • belum tersambung</div></header>
+<main>
+<section class="panel">
+  <div class="topline"><h2>Menu Produk</h2><button class="secondary" id="refreshBtn">↻ Muat ulang</button></div>
+  <div class="setup" id="setupNotice">Aplikasi siap dicoba dengan data contoh. Untuk menyimpan transaksi ke Google Sheets, buka <b>README.md</b> dan masukkan URL Web App Apps Script pada Pengaturan.</div>
+  <div class="filters"><button class="filter active" data-cat="Semua">Semua</button><button class="filter" data-cat="Dimsum">Dimsum</button><button class="filter" data-cat="Minuman">Minuman</button></div>
+  <div class="products" id="products"></div>
+</section>
+<section class="panel">
+  <div class="topline"><h2>Keranjang</h2><button class="secondary" id="clearBtn">Kosongkan</button></div>
+  <div id="cart"></div>
+  <div class="total-line"><span>Subtotal</span><strong id="subtotal">Rp0</strong></div>
+  <div class="field"><label for="discount">Diskon (Rp)</label><input id="discount" type="number" min="0" value="0"></div>
+  <div class="total-line big"><span>Total</span><strong id="total">Rp0</strong></div>
+  <div class="field"><label for="paymentMethod">Metode pembayaran</label><select id="paymentMethod"><option>Tunai</option><option>QRIS</option><option>Transfer</option><option>Debit</option></select></div>
+  <div class="field"><label for="paid">Uang diterima (Rp)</label><input id="paid" type="number" min="0" placeholder="Masukkan nominal pembayaran"></div>
+  <div class="total-line"><span>Kembalian</span><strong id="change">Rp0</strong></div>
+  <div class="field"><label for="cashier">Nama kasir (opsional)</label><input id="cashier" placeholder="Nama kasir"></div>
+  <div class="actions"><button class="secondary" id="printBtn">Cetak struk</button><button class="primary" id="checkoutBtn">Simpan transaksi</button></div>
+  <p class="note">Transaksi online tersimpan ke Google Sheets jika URL backend sudah dipasang. Tanpa backend, transaksi hanya tersimpan selama halaman ini terbuka.</p>
+</section>
+<section class="panel" style="grid-column:1/-1">
+  <div class="topline"><h2>Ringkasan & Riwayat</h2><div class="tabs"><button class="filter active" id="salesTab">Penjualan</button><button class="filter" id="settingsTab">Pengaturan</button></div></div>
+  <div id="salesView"><div class="stats"><div class="stat"><span>Transaksi tersimpan sesi ini</span><strong id="statCount">0</strong></div><div class="stat"><span>Omzet sesi ini</span><strong id="statRevenue">Rp0</strong></div><div class="stat"><span>Item terjual sesi ini</span><strong id="statItems">0</strong></div></div><div class="tablewrap"><table><thead><tr><th>Waktu</th><th>No. Transaksi</th><th>Item</th><th>Pembayaran</th><th>Total</th></tr></thead><tbody id="history"></tbody></table></div></div>
+  <div id="settingsView" class="hidden">
+    <div class="field"><label for="apiUrl">URL Google Apps Script Web App</label><input id="apiUrl" placeholder="https://script.google.com/macros/s/.../exec"></div>
+    <div class="field"><label for="storeName">Nama toko di struk</label><input id="storeName" value="Dimsum & Es Cappuccino AZI"></div>
+    <div class="field"><label for="adminPin">Kunci akses sederhana (opsional)</label><input id="adminPin" placeholder="Samakan dengan API_KEY di Code.gs"></div>
+    <button class="primary" id="saveSettings">Simpan pengaturan</button> <button class="secondary" id="testConnection">Tes koneksi</button>
+    <p class="note">Produk contoh bisa diedit pada tab <b>Products</b> di Google Sheets. Harga awal di aplikasi ini hanya contoh dan dapat diubah.</p>
+  </div>
+</section>
+</main>
+<div id="receipt" class="hidden"></div><div id="toast" class="toast hidden"></div>
+<script>
+const sampleProducts=[
+{id:'D001',name:'Dimsum Original',category:'Dimsum',price:1000,emoji:'🥟'},
+{id:'D002',name:'Dimsum Pedas',category:'Dimsum',price:1000,emoji:'🌶️'},
+{id:'D003',name:'Dimsum Mentai',category:'Dimsum',price:2000,emoji:'🥟'},
+{id:'M001',name:'Es Cappuccino',category:'Minuman',price:5000,emoji:'🧋'},
+{id:'M002',name:'Es Cappuccino Cincau',category:'Minuman',price:6000,emoji:'🥤'}
+];
+let products=[...sampleProducts],cart={},history=[],currentCategory='Semua',lastSale=null;
+const $=id=>document.getElementById(id);
+const rupiah=n=>'Rp'+Math.round(Number(n)||0).toLocaleString('id-ID');
+function toast(s){$('toast').textContent=s;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),2800)}
+function jsonp(params){return new Promise((resolve,reject)=>{const cb='cb_'+Date.now()+'_'+Math.floor(Math.random()*9999);params.callback=cb;const url=new URL($('apiUrl').value.trim());Object.entries(params).forEach(([k,v])=>url.searchParams.set(k,typeof v==='string'?v:JSON.stringify(v)));const script=document.createElement('script');let done=false;const timer=setTimeout(()=>finish(new Error('Koneksi timeout')),12000);function finish(err,data){if(done)return;done=true;clearTimeout(timer);delete window[cb];script.remove();err?reject(err):resolve(data)}window[cb]=data=>finish(null,data);script.onerror=()=>finish(new Error('Gagal terhubung'));script.src=url.toString();document.body.appendChild(script)})}
+function renderProducts(){const list=products.filter(p=>currentCategory==='Semua'||p.category===currentCategory);$('products').innerHTML=list.map(p=>`<button class="product" data-id="${p.id}"><span class="emoji">${p.emoji||'🍽️'}</span><span class="pname">${escapeHtml(p.name)}</span><span class="price">${rupiah(p.price)}</span></button>`).join('');document.querySelectorAll('.product').forEach(b=>b.onclick=()=>addItem(b.dataset.id))}
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function addItem(id){const p=products.find(x=>x.id===id);if(!p)return;if(!cart[id])cart[id]={...p,qty:0};cart[id].qty++;renderCart()}
+function renderCart(){const items=Object.values(cart);if(!items.length){$('cart').innerHTML='<div class="cart-empty">Keranjang masih kosong.<br>Pilih menu untuk mulai transaksi.</div>'}else{$('cart').innerHTML=items.map(p=>`<div class="cart-row"><div><div class="cart-name">${escapeHtml(p.name)}</div><div class="small">${rupiah(p.price)} × ${p.qty} = ${rupiah(p.price*p.qty)}</div></div><div class="qty"><button data-act="minus" data-id="${p.id}">−</button><b>${p.qty}</b><button data-act="plus" data-id="${p.id}">+</button></div></div>`).join('');$('cart').querySelectorAll('button').forEach(b=>b.onclick=()=>{const id=b.dataset.id;if(b.dataset.act==='plus')cart[id].qty++;else cart[id].qty--;if(cart[id].qty<=0)delete cart[id];renderCart()})}const sub=items.reduce((s,p)=>s+p.price*p.qty,0),disc=Math.max(0,Number($('discount').value)||0),tot=Math.max(0,sub-disc);$('subtotal').textContent=rupiah(sub);$('total').textContent=rupiah(tot);$('change').textContent=rupiah(Math.max(0,(Number($('paid').value)||0)-tot));}
+function renderHistory(){$('history').innerHTML=history.length?history.slice().reverse().map(s=>`<tr><td>${escapeHtml(s.time)}</td><td>${escapeHtml(s.id)}</td><td>${s.items.reduce((n,i)=>n+i.qty,0)} item</td><td>${escapeHtml(s.method)}</td><td>${rupiah(s.total)}</td></tr>`).join(''):'<tr><td colspan="5">Belum ada transaksi di sesi ini.</td></tr>';$('statCount').textContent=history.length;$('statRevenue').textContent=rupiah(history.reduce((n,s)=>n+s.total,0));$('statItems').textContent=history.reduce((n,s)=>n+s.items.reduce((a,i)=>a+i.qty,0),0)}
+function getSale(){const items=Object.values(cart).map(p=>({productId:p.id,name:p.name,category:p.category,price:p.price,qty:p.qty,subtotal:p.price*p.qty}));const subtotal=items.reduce((n,p)=>n+p.subtotal,0),discount=Math.min(subtotal,Math.max(0,Number($('discount').value)||0)),total=subtotal-discount,paid=Math.max(0,Number($('paid').value)||0);return{id:'AZI-'+Date.now().toString().slice(-8),time:new Date().toLocaleString('id-ID'),items,subtotal,discount,total,paid,change:Math.max(0,paid-total),method:$('paymentMethod').value,cashier:$('cashier').value.trim()}}
+async function checkout(){if(!Object.keys(cart).length)return toast('Keranjang masih kosong.');const sale=getSale();if(sale.paid<sale.total)return toast('Uang diterima masih kurang.');if(!$('apiUrl').value.trim()){history.push(sale);lastSale=sale;cart={};renderCart();renderHistory();toast('Transaksi tercatat di sesi ini. Sambungkan Google Sheets untuk penyimpanan permanen.');return}try{const res=await jsonp({action:'saveSale',key:$('adminPin').value,sale:JSON.stringify(sale)});if(!res.ok)throw new Error(res.error||'Transaksi gagal disimpan');history.push(sale);lastSale=sale;cart={};renderCart();renderHistory();toast('Transaksi berhasil disimpan ke Google Sheets.')}catch(e){toast('Gagal menyimpan: '+e.message)}}
+function printReceipt(){const s=lastSale||getSale();if(!s.items.length)return toast('Pilih produk dahulu untuk melihat struk.');$('receipt').innerHTML=`<center><h2>${escapeHtml($('storeName').value||'Dimsum & Es Cappuccino AZI')}</h2><p>Terima kasih sudah berbelanja</p></center><hr><p>No: ${escapeHtml(s.id)}<br>Waktu: ${escapeHtml(s.time)}<br>Kasir: ${escapeHtml(s.cashier||'-')}</p><hr>${s.items.map(i=>`<p>${escapeHtml(i.name)}<br>${i.qty} x ${rupiah(i.price)} <span style="float:right">${rupiah(i.subtotal)}</span></p>`).join('')}<hr><p>Subtotal: <b style="float:right">${rupiah(s.subtotal)}</b></p><p>Diskon: <b style="float:right">${rupiah(s.discount)}</b></p><h3>Total: <span style="float:right">${rupiah(s.total)}</span></h3><p>Bayar (${escapeHtml(s.method)}): <b style="float:right">${rupiah(s.paid)}</b></p><p>Kembalian: <b style="float:right">${rupiah(s.change)}</b></p><hr><center>— AZI —</center>`;$('receipt').classList.remove('hidden');window.print();$('receipt').classList.add('hidden')}
+document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{currentCategory=b.dataset.cat;document.querySelectorAll('[data-cat]').forEach(x=>x.classList.toggle('active',x===b));renderProducts()});
+$('discount').oninput=renderCart;$('paid').oninput=renderCart;$('clearBtn').onclick=()=>{cart={};renderCart()};$('checkoutBtn').onclick=checkout;$('printBtn').onclick=printReceipt;
+$('salesTab').onclick=()=>{$('salesView').classList.remove('hidden');$('settingsView').classList.add('hidden');$('salesTab').classList.add('active');$('settingsTab').classList.remove('active')};
+$('settingsTab').onclick=()=>{$('salesView').classList.add('hidden');$('settingsView').classList.remove('hidden');$('settingsTab').classList.add('active');$('salesTab').classList.remove('active')};
+$('saveSettings').onclick=()=>{localStorage.setItem('azi_apiUrl',$('apiUrl').value.trim());localStorage.setItem('azi_storeName',$('storeName').value);localStorage.setItem('azi_adminPin',$('adminPin').value);toast('Pengaturan disimpan di perangkat ini.')};
+$('testConnection').onclick=async()=>{try{const r=await jsonp({action:'ping',key:$('adminPin').value});if(!r.ok)throw new Error(r.error||'Tidak terhubung');$('connectionStatus').textContent='Google Sheets tersambung';$('setupNotice').classList.add('hidden');toast('Koneksi Google Sheets berhasil.')}catch(e){toast('Tes koneksi gagal: '+e.message)}};
+$('refreshBtn').onclick=async()=>{if(!$('apiUrl').value.trim())return toast('Isi URL backend di Pengaturan dahulu.');try{const r=await jsonp({action:'getProducts',key:$('adminPin').value});if(!r.ok)throw new Error(r.error||'Gagal memuat produk');products=r.products;renderProducts();$('connectionStatus').textContent='Google Sheets tersambung';$('setupNotice').classList.add('hidden');toast('Produk berhasil dimuat.')}catch(e){toast('Gagal memuat produk: '+e.message)}};
+(function init(){ $('apiUrl').value=localStorage.getItem('azi_apiUrl')||'';$('storeName').value=localStorage.getItem('azi_storeName')||'Dimsum & Es Cappuccino AZI';$('adminPin').value=localStorage.getItem('azi_adminPin')||'';renderProducts();renderCart();renderHistory();if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));})();
+</script>
+</body></html>

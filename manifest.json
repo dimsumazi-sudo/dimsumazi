@@ -1,0 +1,13 @@
+{
+  "name": "Kasir AZI - Dimsum & Es Cappuccino",
+  "short_name": "Kasir AZI",
+  "description": "Aplikasi kasir Dimsum & Es Cappuccino AZI",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f4f0",
+  "theme_color": "#6f2c18",
+  "icons": [
+    {"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
