@@ -1,6 +1,6 @@
 ProductID,Nama,Kategori,Harga,Emoji,Aktif
 D001,Dimsum Original,Dimsum,1000,🥟,TRUE
 D002,Dimsum Pedas,Dimsum,1000,🌶️,TRUE
-D003,Dimsum Mentai,Dimsum,2000,🥟,TRUE
+D003,Dimsum Mentai,Dimsum,1000,🥟,TRUE
 M001,Es Cappuccino,Minuman,5000,🧋,TRUE
 M002,Es Cappuccino Cincau,Minuman,6000,🥤,TRUE
