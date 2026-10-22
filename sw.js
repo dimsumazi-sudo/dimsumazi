@@ -1,4 +1,4 @@
-const CACHE='kasir-azi-v3-riwayat-bulanan';
+const CACHE='kasir-azi-v4-laporan-harian-bulanan';
 const ASSETS=['./','./index.html','./manifest.json','./icon.svg'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))));
