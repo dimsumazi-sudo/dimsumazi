@@ -150,6 +150,49 @@ button:active{transform:scale(.98);filter:brightness(.97)}
   .note, .small { font-size: 13px; }
   .actions button { font-size: 14px; }
 }
+
+/* PERBAIKAN LANJUTAN: font HP benar-benar diperbesar */
+@media screen and (max-width: 850px) {
+  html { -webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important; }
+  body, body button, body input, body select, body textarea { font-size: 17px !important; line-height: 1.5 !important; }
+  header { padding: 16px !important; }
+  .brand h1 { font-size: 22px !important; }
+  .brand p, .status { font-size: 15px !important; }
+  .panel { padding: 18px !important; }
+  .panel h2 { font-size: 23px !important; line-height: 1.35 !important; }
+  .pname, .cart-name { font-size: 18px !important; line-height: 1.45 !important; }
+  .price { font-size: 19px !important; }
+  .emoji { font-size: 32px !important; }
+  .product { padding: 15px 13px !important; min-height: 145px !important; }
+  .product-actions button, button { font-size: 16px !important; min-height: 44px !important; }
+  .field label { font-size: 16px !important; }
+  .field input, .field select, .field input[type=file] { font-size: 17px !important; min-height: 52px !important; padding: 12px !important; }
+  .note, .small, .setup { font-size: 15px !important; line-height: 1.55 !important; }
+  .total-line { font-size: 17px !important; }
+  .total-line.big { font-size: 23px !important; }
+  .stat span { font-size: 14px !important; line-height: 1.45 !important; }
+  .stat strong { font-size: 20px !important; }
+  table { font-size: 15px !important; }
+  th { font-size: 13px !important; }
+  th, td { padding: 12px 10px !important; }
+  .filters button, .tabs button { font-size: 15px !important; }
+  .toast { font-size: 16px !important; }
+  #logoutBtn { font-size: 15px !important; }
+}
+@media screen and (max-width: 480px) {
+  body, body button, body input, body select, body textarea { font-size: 17px !important; }
+  .brand h1 { font-size: 21px !important; }
+  .brand p { font-size: 14px !important; }
+  .panel h2 { font-size: 22px !important; }
+  .pname, .cart-name { font-size: 17px !important; }
+  .price { font-size: 19px !important; }
+  .field label { font-size: 15px !important; }
+  .note, .small { font-size: 14px !important; }
+  .stat span { font-size: 13px !important; }
+  .stat strong { font-size: 19px !important; }
+  .monthly-tools > div:first-child { font-size: 18px !important; }
+}
+
 </style>
 </head>
 <body>
@@ -239,11 +282,97 @@ $('settingsTab').onclick=()=>{$('salesView').classList.add('hidden');$('settings
 $('saveSettings').onclick=()=>{localStorage.setItem('azi_apiUrl',$('apiUrl').value.trim());localStorage.setItem('azi_storeName',$('storeName').value);localStorage.setItem('azi_adminPin',$('adminPin').value);toast('Pengaturan disimpan di perangkat ini.')};
 let lastDailyReport=null;
 $('dailyReportBtn').onclick=async()=>{const date=$('reportDate').value;if(!date)return toast('Pilih tanggal laporan terlebih dahulu.');if(!$('apiUrl').value.trim())return toast('Sambungkan Google Sheets terlebih dahulu di Pengaturan.');$('dailyReportStatus').textContent='Memuat laporan tanggal '+date+'…';try{const r=await jsonp({action:'getDailyReport',key:$('adminPin').value,date});if(!r.ok)throw new Error(r.error||'Gagal memuat laporan');lastDailyReport=r;$('statCount').textContent=r.count;$('statRevenue').textContent=rupiah(r.revenue);$('statItems').textContent=r.itemsSold;$('history').innerHTML=r.sales.length?r.sales.map(s=>`<tr><td>${escapeHtml(s.time)}</td><td>${escapeHtml(s.id)}</td><td>${escapeHtml(s.cashier||'-')}</td><td>${escapeHtml(s.productNames||'-')}</td><td>${Number(s.items)||0} item</td><td>${escapeHtml(s.method)}</td><td>${s.proofUrl?`<a href="${escapeHtml(s.proofUrl)}" target="_blank" rel="noopener">Lihat foto</a>`:`-`}</td><td>${rupiah(s.total)}</td></tr>`).join(''):'<tr><td colspan="8">Belum ada transaksi pada tanggal ini.</td></tr>';$('dailyReportStatus').textContent='Laporan tanggal '+r.date+' dari Google Sheets. Total transaksi: '+r.count+'. Omzet: '+rupiah(r.revenue)+'.';toast('Laporan harian berhasil dimuat.')}catch(e){$('dailyReportStatus').textContent='Laporan gagal dimuat: '+e.message;toast('Gagal memuat laporan: '+e.message)}};
-$('printDailyBtn').onclick=()=>{if(!lastDailyReport)return toast('Muat laporan harian terlebih dahulu.');const r=lastDailyReport;const rows=r.sales.map(s=>`<tr><td>${escapeHtml(s.time)}</td><td>${escapeHtml(s.id)}</td><td>${escapeHtml(s.cashier||'-')}</td><td>${escapeHtml(s.productNames||'-')}</td><td>${Number(s.items)||0}</td><td>${escapeHtml(s.method)}</td><td>${rupiah(s.total)}</td><td>${s.proofUrl?'Ada':'-'}</td></tr>`).join('');const w=window.open('','_blank');if(!w)return toast('Izinkan pop-up untuk mencetak laporan.');w.document.write(`<!doctype html><html lang="id"><head><meta charset="utf-8"><title>Laporan Harian Kasir AZI ${escapeHtml(r.date)}</title><style>body{font:12px Arial,sans-serif;padding:20px;color:#222}h1{font-size:20px}p{margin:5px 0 14px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #aaa;padding:7px;text-align:left}th{background:#eee}</style></head><body><h1>Dimsum & Es Cappuccino AZI</h1><h2>Laporan Penjualan Harian ${escapeHtml((r.date||'').split('-').reverse().join('-'))}</h2><p>Total transaksi: ${r.count} | Total item: ${r.itemsSold} | Omzet: ${rupiah(r.revenue)}</p><table><thead><tr><th>Waktu</th><th>No. Transaksi</th><th>Nama Kasir</th><th>Nama Produk</th><th>Item</th><th>Pembayaran</th><th>Total</th><th>Bukti QRIS</th></tr></thead><tbody>${rows||'<tr><td colspan="8">Tidak ada transaksi.</td></tr>'}</tbody></table><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();};
+$('printDailyBtn').onclick=()=>{if(!lastDailyReport)return toast('Muat laporan harian terlebih dahulu.');const r=lastDailyReport;const rows=r.sales.map(s=>`<tr><td>${escapeHtml(s.time)}</td><td>${escapeHtml(s.id)}</td><td>${escapeHtml(s.cashier||'-')}</td><td>${escapeHtml(s.productNames||'-')}</td><td>${Number(s.items)||0}</td><td>${escapeHtml(s.method)}</td><td>${rupiah(s.total)}</td><td>${s.proofUrl?'Ada':'-'}</td></tr>`).join('');const w=window.open('','_blank');if(!w)return toast('Izinkan pop-up untuk mencetak laporan.');w.document.write(`<!doctype html><html lang="id"><head><meta charset="utf-8"><title>Laporan Harian Kasir AZI ${escapeHtml(r.date)}</title><style>body{font:12px Arial,sans-serif;padding:20px;color:#222}h1{font-size:20px}p{margin:5px 0 14px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #aaa;padding:7px;text-align:left}th{background:#eee}
+/* PERBAIKAN LANJUTAN: font HP benar-benar diperbesar */
+@media screen and (max-width: 850px) {
+  html { -webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important; }
+  body, body button, body input, body select, body textarea { font-size: 17px !important; line-height: 1.5 !important; }
+  header { padding: 16px !important; }
+  .brand h1 { font-size: 22px !important; }
+  .brand p, .status { font-size: 15px !important; }
+  .panel { padding: 18px !important; }
+  .panel h2 { font-size: 23px !important; line-height: 1.35 !important; }
+  .pname, .cart-name { font-size: 18px !important; line-height: 1.45 !important; }
+  .price { font-size: 19px !important; }
+  .emoji { font-size: 32px !important; }
+  .product { padding: 15px 13px !important; min-height: 145px !important; }
+  .product-actions button, button { font-size: 16px !important; min-height: 44px !important; }
+  .field label { font-size: 16px !important; }
+  .field input, .field select, .field input[type=file] { font-size: 17px !important; min-height: 52px !important; padding: 12px !important; }
+  .note, .small, .setup { font-size: 15px !important; line-height: 1.55 !important; }
+  .total-line { font-size: 17px !important; }
+  .total-line.big { font-size: 23px !important; }
+  .stat span { font-size: 14px !important; line-height: 1.45 !important; }
+  .stat strong { font-size: 20px !important; }
+  table { font-size: 15px !important; }
+  th { font-size: 13px !important; }
+  th, td { padding: 12px 10px !important; }
+  .filters button, .tabs button { font-size: 15px !important; }
+  .toast { font-size: 16px !important; }
+  #logoutBtn { font-size: 15px !important; }
+}
+@media screen and (max-width: 480px) {
+  body, body button, body input, body select, body textarea { font-size: 17px !important; }
+  .brand h1 { font-size: 21px !important; }
+  .brand p { font-size: 14px !important; }
+  .panel h2 { font-size: 22px !important; }
+  .pname, .cart-name { font-size: 17px !important; }
+  .price { font-size: 19px !important; }
+  .field label { font-size: 15px !important; }
+  .note, .small { font-size: 14px !important; }
+  .stat span { font-size: 13px !important; }
+  .stat strong { font-size: 19px !important; }
+  .monthly-tools > div:first-child { font-size: 18px !important; }
+}
+
+</style></head><body><h1>Dimsum & Es Cappuccino AZI</h1><h2>Laporan Penjualan Harian ${escapeHtml((r.date||'').split('-').reverse().join('-'))}</h2><p>Total transaksi: ${r.count} | Total item: ${r.itemsSold} | Omzet: ${rupiah(r.revenue)}</p><table><thead><tr><th>Waktu</th><th>No. Transaksi</th><th>Nama Kasir</th><th>Nama Produk</th><th>Item</th><th>Pembayaran</th><th>Total</th><th>Bukti QRIS</th></tr></thead><tbody>${rows||'<tr><td colspan="8">Tidak ada transaksi.</td></tr>'}</tbody></table><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();};
 let lastMonthlyReport=null;
 function renderMonthlyRows(r){$('statCount').textContent=r.count;$('statRevenue').textContent=rupiah(r.revenue);$('statItems').textContent=r.itemsSold;$('history').innerHTML=r.sales.length?r.sales.map(s=>`<tr><td>${escapeHtml(s.date+' '+s.time)}</td><td>${escapeHtml(s.id)}</td><td>${escapeHtml(s.cashier||'-')}</td><td>${escapeHtml(s.productNames||'-')}</td><td>${Number(s.items)||0} item</td><td>${escapeHtml(s.method)}</td><td>${s.proofUrl?`<a href="${escapeHtml(s.proofUrl)}" target="_blank" rel="noopener">Lihat foto</a>`:'-'}</td><td>${rupiah(s.total)}</td></tr>`).join(''):'<tr><td colspan="8">Tidak ada transaksi pada bulan ini.</td></tr>';$('dailyReportStatus').textContent='Riwayat bulan '+r.month+'. Total transaksi: '+r.count+'. Omzet: '+rupiah(r.revenue)+'.';}
 $('monthlyReportBtn').onclick=async()=>{const month=$('reportMonth').value;if(!month)return toast('Pilih bulan yang ingin dilihat.');if(!$('apiUrl').value.trim())return toast('Sambungkan Google Sheets terlebih dahulu di Pengaturan.');$('dailyReportStatus').textContent='Memuat riwayat bulan '+month+'…';try{const r=await jsonp({action:'getMonthlyReport',key:$('adminPin').value,month});if(!r.ok)throw new Error(r.error||'Gagal memuat riwayat bulan');lastMonthlyReport=r;renderMonthlyRows(r);toast('Riwayat bulanan berhasil dimuat.')}catch(e){$('dailyReportStatus').textContent='Riwayat bulanan gagal dimuat: '+e.message;toast('Gagal memuat riwayat: '+e.message)}};
-$('printMonthlyBtn').onclick=()=>{if(!lastMonthlyReport)return toast('Muat riwayat bulan terlebih dahulu.');const r=lastMonthlyReport;const rows=r.sales.map(s=>`<tr><td>${escapeHtml(s.date)} ${escapeHtml(s.time)}</td><td>${escapeHtml(s.id)}</td><td>${escapeHtml(s.cashier||'-')}</td><td>${escapeHtml(s.productNames||'-')}</td><td>${Number(s.items)||0}</td><td>${escapeHtml(s.method)}</td><td>${rupiah(s.total)}</td><td>${s.proofUrl?'Ada':'-'}</td></tr>`).join('');const w=window.open('','_blank');if(!w)return toast('Izinkan pop-up untuk mencetak laporan.');w.document.write(`<!doctype html><html lang="id"><head><meta charset="utf-8"><title>Riwayat Kasir AZI ${escapeHtml(r.month)}</title><style>body{font:12px Arial,sans-serif;padding:20px;color:#222}h1{font-size:20px}p{margin:5px 0 14px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #aaa;padding:7px;text-align:left}th{background:#eee}.summary{margin:14px 0;font-weight:bold}@media print{button{display:none}}</style></head><body><h1>Dimsum & Es Cappuccino AZI</h1><h2>Riwayat Penjualan Bulan ${escapeHtml(r.month)}</h2><p>Total transaksi: ${r.count} | Total item: ${r.itemsSold} | Omzet: ${rupiah(r.revenue)}</p><table><thead><tr><th>Tanggal/Waktu</th><th>No. Transaksi</th><th>Nama Kasir</th><th>Nama Produk</th><th>Item</th><th>Pembayaran</th><th>Total</th><th>Bukti QRIS</th></tr></thead><tbody>${rows||'<tr><td colspan="8">Tidak ada transaksi.</td></tr>'}</tbody></table><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();};
+$('printMonthlyBtn').onclick=()=>{if(!lastMonthlyReport)return toast('Muat riwayat bulan terlebih dahulu.');const r=lastMonthlyReport;const rows=r.sales.map(s=>`<tr><td>${escapeHtml(s.date)} ${escapeHtml(s.time)}</td><td>${escapeHtml(s.id)}</td><td>${escapeHtml(s.cashier||'-')}</td><td>${escapeHtml(s.productNames||'-')}</td><td>${Number(s.items)||0}</td><td>${escapeHtml(s.method)}</td><td>${rupiah(s.total)}</td><td>${s.proofUrl?'Ada':'-'}</td></tr>`).join('');const w=window.open('','_blank');if(!w)return toast('Izinkan pop-up untuk mencetak laporan.');w.document.write(`<!doctype html><html lang="id"><head><meta charset="utf-8"><title>Riwayat Kasir AZI ${escapeHtml(r.month)}</title><style>body{font:12px Arial,sans-serif;padding:20px;color:#222}h1{font-size:20px}p{margin:5px 0 14px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #aaa;padding:7px;text-align:left}th{background:#eee}.summary{margin:14px 0;font-weight:bold}@media print{button{display:none}}
+/* PERBAIKAN LANJUTAN: font HP benar-benar diperbesar */
+@media screen and (max-width: 850px) {
+  html { -webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important; }
+  body, body button, body input, body select, body textarea { font-size: 17px !important; line-height: 1.5 !important; }
+  header { padding: 16px !important; }
+  .brand h1 { font-size: 22px !important; }
+  .brand p, .status { font-size: 15px !important; }
+  .panel { padding: 18px !important; }
+  .panel h2 { font-size: 23px !important; line-height: 1.35 !important; }
+  .pname, .cart-name { font-size: 18px !important; line-height: 1.45 !important; }
+  .price { font-size: 19px !important; }
+  .emoji { font-size: 32px !important; }
+  .product { padding: 15px 13px !important; min-height: 145px !important; }
+  .product-actions button, button { font-size: 16px !important; min-height: 44px !important; }
+  .field label { font-size: 16px !important; }
+  .field input, .field select, .field input[type=file] { font-size: 17px !important; min-height: 52px !important; padding: 12px !important; }
+  .note, .small, .setup { font-size: 15px !important; line-height: 1.55 !important; }
+  .total-line { font-size: 17px !important; }
+  .total-line.big { font-size: 23px !important; }
+  .stat span { font-size: 14px !important; line-height: 1.45 !important; }
+  .stat strong { font-size: 20px !important; }
+  table { font-size: 15px !important; }
+  th { font-size: 13px !important; }
+  th, td { padding: 12px 10px !important; }
+  .filters button, .tabs button { font-size: 15px !important; }
+  .toast { font-size: 16px !important; }
+  #logoutBtn { font-size: 15px !important; }
+}
+@media screen and (max-width: 480px) {
+  body, body button, body input, body select, body textarea { font-size: 17px !important; }
+  .brand h1 { font-size: 21px !important; }
+  .brand p { font-size: 14px !important; }
+  .panel h2 { font-size: 22px !important; }
+  .pname, .cart-name { font-size: 17px !important; }
+  .price { font-size: 19px !important; }
+  .field label { font-size: 15px !important; }
+  .note, .small { font-size: 14px !important; }
+  .stat span { font-size: 13px !important; }
+  .stat strong { font-size: 19px !important; }
+  .monthly-tools > div:first-child { font-size: 18px !important; }
+}
+
+</style></head><body><h1>Dimsum & Es Cappuccino AZI</h1><h2>Riwayat Penjualan Bulan ${escapeHtml(r.month)}</h2><p>Total transaksi: ${r.count} | Total item: ${r.itemsSold} | Omzet: ${rupiah(r.revenue)}</p><table><thead><tr><th>Tanggal/Waktu</th><th>No. Transaksi</th><th>Nama Kasir</th><th>Nama Produk</th><th>Item</th><th>Pembayaran</th><th>Total</th><th>Bukti QRIS</th></tr></thead><tbody>${rows||'<tr><td colspan="8">Tidak ada transaksi.</td></tr>'}</tbody></table><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();};
 const localToday=new Date();$('reportDate').value=[localToday.getFullYear(),String(localToday.getMonth()+1).padStart(2,'0'),String(localToday.getDate()).padStart(2,'0')].join('-');$('reportMonth').value=[localToday.getFullYear(),String(localToday.getMonth()+1).padStart(2,'0')].join('-');
 $('testConnection').onclick=async()=>{try{const r=await jsonp({action:'ping',key:$('adminPin').value});if(!r.ok)throw new Error(r.error||'Tidak terhubung');$('connectionStatus').textContent='Google Sheets tersambung';$('setupNotice').classList.add('hidden');toast('Koneksi Google Sheets berhasil.')}catch(e){toast('Tes koneksi gagal: '+e.message)}};
 $('addProductBtn').onclick=addProduct;
